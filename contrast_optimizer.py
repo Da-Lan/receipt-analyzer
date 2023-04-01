@@ -28,27 +28,29 @@ def save_image(im, title, file_name, cmap):
     return 0
 
 
-# load image
-img = cv2.imread('ticket_inter_20230222_crop.jpg')
-save_image(img, "input receipt", "contrast_optimizer_input_receipt", "viridis")
+if __name__ == "__main__":
 
-# to gray scale
-img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-save_image(img_gray, "receipt gray scale", "contrast_optimizer_gray_scale", "gray")
+    # load image
+    img = cv2.imread('ticket_inter_20230222_crop.jpg')
+    save_image(img, "input receipt", "contrast_optimizer_input_receipt", "viridis")
 
-# dynamic/adaptive threshold, (note for the futur: to grid-search)
-thresh = threshold_local(img_gray,
-                         block_size=51,
-                         method="gaussian",
-                         offset=40)
+    # to gray scale
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    save_image(img_gray, "receipt gray scale", "contrast_optimizer_gray_scale", "gray")
 
-img_contr = (img_gray > thresh).astype("uint8") * 255
-save_image(img_contr, "receipt contrasted", "contrast_optimizer_contrasted", "gray")
+    # dynamic/adaptive threshold, (note for the futur: to grid-search)
+    thresh = threshold_local(img_gray,
+                            block_size=51,
+                            method="gaussian",
+                            offset=40)
 
-print("Result of contrast optimizer image processing")
+    img_contr = (img_gray > thresh).astype("uint8") * 255
+    save_image(img_contr, "receipt contrasted", "contrast_optimizer_contrasted", "gray")
 
-# Print result after applying tesseract text extractor
-text_from_image = pytesseract.image_to_string(
-    Image.fromarray(img_contr)
-)
-print(text_from_image)
+    print("Result of contrast optimizer image processing")
+
+    # Print result after applying tesseract text extractor
+    text_from_image = pytesseract.image_to_string(
+        Image.fromarray(img_contr)
+    )
+    print(text_from_image)
