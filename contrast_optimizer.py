@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from skimage.filters import threshold_local
 import os
+import argparse
 
 
 def save_image(im, title, file_name, cmap):
@@ -29,6 +30,12 @@ def save_image(im, title, file_name, cmap):
 
 
 if __name__ == "__main__":
+
+    # get script input args
+    parser = argparse.ArgumentParser(description='Get input argument')
+    parser.add_argument('input_filename')
+    args = parser.parse_args()
+    print("run contrast_optimizer with args", args)
 
     # load image
     img = cv2.imread('ticket_inter_20230222_crop.jpg')
