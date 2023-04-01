@@ -38,7 +38,7 @@ if __name__ == "__main__":
     print("run contrast_optimizer with args", args)
 
     # load image
-    img = cv2.imread('ticket_inter_20230222_crop.jpg')
+    img = cv2.imread(args.input_filename)
     save_image(img, "input receipt", "contrast_optimizer_input_receipt", "viridis")
 
     # to gray scale
