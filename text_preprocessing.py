@@ -23,8 +23,14 @@ if __name__ == "__main__":
     # Script
     ##########################
 
+    # get script input args
+    parser = argparse.ArgumentParser(description='Get input argument')
+    parser.add_argument('input_filename')
+    args = parser.parse_args()
+    print("run text_preprocessing with args", args)
+
     # load image
-    img = cv2.imread("contrast_optimizer\\ticket_inter_20230222_crop_2.png")
+    img = cv2.imread(args.input_filename)
 
     # Application of tesseract text extractor
     text_from_image = pytesseract.image_to_string(
@@ -78,11 +84,15 @@ if __name__ == "__main__":
     df["price"] = df["price"].str.replace(",", ".").astype(float)
 
     # Save result in a csv file
-    file_name = "ticket_inter_20230222_crop"
-
     if not os.path.exists(path_name):
         os.makedirs(path_name)
 
-    df.to_csv(os.path.join(path_name, file_name + ".csv"), sep=";", index=False)
+    df.to_csv(os.path.join(path_name,
+                           args.input_filename.split(".")[0]
+                           .rsplit("\\", 1)[1]
+                           + "_0"
+                           + ".csv"),
+              sep=";",
+              index=False)
 
-    print("Saved csv", file_name + ".csv")
+    print("Saved csv", args.input_filename + ".csv")
