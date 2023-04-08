@@ -5,6 +5,8 @@ import numpy as np
 import os
 import argparse
 import re
+from datetime import datetime
+import pandas as pd
 
 
 if __name__ == "__main__":
@@ -14,6 +16,7 @@ if __name__ == "__main__":
     ##########################
 
     stop_keywords = ["total eligible", "montant", "cb sans contact"]
+    path_name = "text_preprocessing"
 
 
     ##########################
@@ -55,3 +58,30 @@ if __name__ == "__main__":
     # only keep string part, not the matching informations
     products_lines = [x[0] for x in matches_elag]
     print(products_lines)
+
+    # Separate product names from their price into 2 lists
+    products_dict = []
+    for l in products_lines:
+        key_val = l.rsplit(" ", 1)
+        products_dict.append(key_val)
+
+    # transpose
+    products_dict_t = list(map(list, zip(*products_dict)))
+    print(products_dict_t)
+
+    # add today date to dataframe on each line, product names and prices
+    df = pd.DataFrame({"date": datetime.today().strftime('%Y-%m-%d'),
+                    "name": products_dict_t[0],
+                    "price": products_dict_t[1]})
+    
+    df["price"] = df["price"].str.replace(",", ".").astype(float)
+
+    # Save result in a csv file
+    file_name = "ticket_inter_20230222_crop"
+
+    if not os.path.exists(path_name):
+        os.makedirs(path_name)
+
+    df.to_csv(os.path.join(path_name, file_name + ".csv"), sep=";", index=False)
+
+    print("Saved csv", file_name + ".csv")
