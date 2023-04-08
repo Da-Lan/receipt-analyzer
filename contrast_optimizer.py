@@ -54,10 +54,4 @@ if __name__ == "__main__":
     img_contr = (img_gray > thresh).astype("uint8") * 255
     save_image(img_contr, args.input_filename.split(".")[0] + "_2", "gray")
 
-    print("Result of contrast optimizer image processing")
-
-    # Print result after applying tesseract text extractor
-    text_from_image = pytesseract.image_to_string(
-        Image.fromarray(img_contr)
-    )
-    print(text_from_image)
+    print("End of contrast optimizer image processing")
