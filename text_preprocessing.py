@@ -26,6 +26,7 @@ if __name__ == "__main__":
     # get script input args
     parser = argparse.ArgumentParser(description='Get input argument')
     parser.add_argument('input_filename')
+    parser.add_argument('date', nargs='?', default=datetime.today().strftime('%Y-%m-%d'))
     args = parser.parse_args()
     print("run text_preprocessing with args", args)
 
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     print(products_dict_t)
 
     # add today date to dataframe on each line, product names and prices
-    df = pd.DataFrame({"date": datetime.today().strftime('%Y-%m-%d'),
+    df = pd.DataFrame({"date": args.date,
                     "name": products_dict_t[0],
                     "price": products_dict_t[1]})
     
