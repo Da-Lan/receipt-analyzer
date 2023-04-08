@@ -26,6 +26,7 @@ if __name__ == "__main__":
     # load image
     img = cv2.imread("contrast_optimizer\\ticket_inter_20230222_crop_2.png")
 
+    # Application of tesseract text extractor
     text_from_image = pytesseract.image_to_string(
         Image.fromarray(img)
     )
