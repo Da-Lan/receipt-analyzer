@@ -8,9 +8,9 @@ import os
 import argparse
 
 
-def save_image(im, title, file_name, cmap):
+def save_image(im, file_name, cmap):
     """
-    Takes an image (matrix of numbers), a title to show in graph,
+    Takes an image (matrix of numbers),
     a file name without extension, a matplotlib colormap
     Export the matrix image as a .png image file in folder "contrast_optimizer"
     """
@@ -39,11 +39,11 @@ if __name__ == "__main__":
 
     # load image
     img = cv2.imread(args.input_filename)
-    save_image(img, "input receipt", args.input_filename.split(".")[0] + "_0", "viridis")
+    save_image(img, args.input_filename.split(".")[0] + "_0", "viridis")
 
     # to gray scale
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    save_image(img_gray, "receipt gray scale", args.input_filename.split(".")[0] + "_1", "gray")
+    save_image(img_gray, args.input_filename.split(".")[0] + "_1", "gray")
 
     # dynamic/adaptive threshold, (note for the futur: to grid-search)
     thresh = threshold_local(img_gray,
@@ -52,7 +52,7 @@ if __name__ == "__main__":
                             offset=40)
 
     img_contr = (img_gray > thresh).astype("uint8") * 255
-    save_image(img_contr, "receipt contrasted", args.input_filename.split(".")[0] + "_2", "gray")
+    save_image(img_contr, args.input_filename.split(".")[0] + "_2", "gray")
 
     print("Result of contrast optimizer image processing")
 
