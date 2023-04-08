@@ -18,12 +18,12 @@ def save_image(im, title, file_name, cmap):
 
     if not os.path.exists(path_name):
         os.makedirs(path_name)
-
-    plt.imshow(im, cmap=cmap)
-    plt.title(title)
-    plt.savefig(os.path.join(path_name, file_name + ".png"),
-                bbox_inches="tight")
     
+    plt.imsave(fname=os.path.join(path_name, file_name + ".png"),
+               arr=im,
+               cmap='gray',
+               format='png')
+
     print("Saved image", file_name + ".png")
 
     return 0
